@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Auto ML</title>
+
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js">
+</script>
+    <script
+src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
+<script>
+  function myFunction() {
+            var a=document.getElementById("summary")            
+            var b='{{output|safe}}'
+            a.innerHTML=b                      
+   }
+   function myFunction2() {
+            var a=document.getElementById("summary2")
+            var b='{{output|safe}}'
+            a.innerHTML=b
+   }
+
+ function myFunction3() {
+            var a=document.getElementById("Regression")
+            var c=document.getElementById("Classification")
+            var b='{{display_Control|safe}}'
+            var isTrueSet = b == 'true';
+            if (isTrueSet)
+             {
+             a.style.display = 'none';
+             c.style.display = 'flex';
+                }
+             else{
+             a.style.display = 'flex';
+             c.style.display = 'none';
+             }
+}
+
+ </script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* Style the body */
+
+body {
+
+  background-image: url('https://png.pngtree.com/background/20210715/original/pngtree-cream-abstract-watercolor-paint-background-picture-image_1272213.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  font-family: Arial;
+  margin: 0;
+}
+
+/* Header/Logo Title */
+.header {
+  padding: 60px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+  font-size: 30px;
+}
+
+/* Page Content */
+.container{
+  margin-left: 50px;
+
+}
+.content {padding:20px;}
+.flex_center{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.btn{
+  margin-left: 20px;
+  margin-left: 20px;
+  color: #ffffff;
+  font-weight: bold;
+  background: rgb(123, 197, 49);
+  padding: 10px;
+  border-radius: 10px;
+}
+.formContainer{
+  padding: 20px;
+  display: inline-block;
+  background-color: #3f51b5cf;
+  border-radius: 5px;
+  margin: 5px;
+}
+h4{
+  margin: 2px;
+}
+
+.btn:hover {
+  background-color: rgb(57, 255, 22);
+}
+
+.btn:active {
+  box-shadow: inset -2px -2px 3px rgba(229, 117, 25, 0.393),
+              inset 2px 2px 3px rgba(5, 21, 66, 0.6);
+}
+.column{
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+
+}
+.Model{
+    width: 60%;
+}
+
+
+</style>
+</head>
+<body>
+<div class="wf-section"><div class="container w-container">
+
+            <h1 class="heading">Machine Learning Project Auto ML</h1>
+            <h4>Model Selection</h4>
+            <div class="formContainer">
+                  <form action={{ url_for('modelTypeSelect')}} class="form-group" method = "post">
+                    <label>Select CNN vs ANN</label>
+                    <select id="field" name="model" data-name="Field" class="w-select"><option value="">Select one...</option>
+                      <option value="CNN">CNN</option><option value="ANN">ANN</option></select>
+                    <button type="submit" class="btn btn-primary btn-block btn-large" >Model Select</button>
+                </form>
+            </div>
+
+    <div id="Classification" class="column">
+    <div class="Model">
+            <h4>Input layer Addition</h4>
+            <div class="formContainer">
+              <form action={{ url_for('addInputLayer')}} class="form-group" method = "post">
+                <div class="flex_center">
+                  <div>
+                  <label>Shape of Input</label>
+                  <div>
+                    <input type="text" name="height" placeholder="Height" required="required" />
+                    <input type="text" name="width" placeholder="width" required="required" />
+                    <input type="text" name="channels" placeholder="channels" required="required" />
+                  </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block btn-large">Add Input Layer</button>
+                </div>
+              </form>
+            </div>
+
+            <h4>Maxpool layer Addition</h4>
+            <div class="formContainer">
+              <form action={{ url_for('addMaxPool')}} class="form-group" method = "post">
+                <div class="flex_center">
+                  <div>
+                  <label>Shape of Kernel</label>
+                  <div>
+                    <input type="text" name="height" placeholder="Height" required="required" />
+                    <input type="text" name="width" placeholder="width" required="required" />
+                  </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block btn-large">Add Maxpool Layer</button>
+                </div>
+              </form>
+            </div>
+
+            <h4>Convolution 2D layer Addition</h4>
+            <div class="formContainer">
+              <form action={{ url_for('Conv2DLayer')}} class="form-group" method = "post">
+                <div class="flex_center">
+                  <div>
+                  <label>Enter the following parameters</label>
+                  <div>
+                    <input type="text" name="filters" placeholder="Filter Number" required="required" />
+                    <input type="text" name="kernel" placeholder="Kernel Size" required="required" />
+                    <select id="field" name="activation" data-name="Field" class="w-select"><option value="">Select Activation...</option><option value="relu">Relu</option>
+                    <option value="tanh">Tanh</option><option value="sigmoid">Sigmoid</option><option value="softmax">Softmax</option></select>
+                    <select id="field" name="Padding" data-name="Field" class="w-select"><option value="">Select Padding Status...</option><option value="valid">Valid</option>
+                        <option value="none">none</option></select>
+                  </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block btn-large">Add Cov2D Layer</button>
+                </div>
+              </form>
+            </div>
+
+            <h4>Flatten layer Addition</h4>
+            <div class="formContainer">
+              <form action={{ url_for('FlattenLayer')}} class="form-group" method = "post">
+                <div class="flex_center">
+                  <div>
+                  <label>Click the Button to add Flatten layer</label>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block btn-large">Add Flatten Layer</button>
+                </div>
+              </form>
+            </div>
+
+
+            <h4>Dense layer Addition</h4>
+            <div class="formContainer">
+              <form action={{ url_for('denselayer')}} class="form-group" method = "post">
+                <div class="flex_center">
+                  <div>
+                  <label>Enter the following parameters</label>
+                  <div>
+                    <input type="text" name="neurons" placeholder="Enter neurons Number" required="required" />
+                    <select id="field" name="activation" data-name="Field" class="w-select"><option value="">Select Activation...</option><option value="relu">Relu</option>
+                    <option value="tanh">Tanh</option><option value="sigmoid">Sigmoid</option><option value="softmax">Softmax</option></select>
+                  </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block btn-large">Add Dense Layer</button>
+                </div>
+              </form>
+            </div>
+
+            <h4>Model Train</h4>
+            <div class="formContainer">
+              <form action={{ url_for('TrainModel')}} class="form-group" method = "post">
+                <div class="flex_center">
+                  <div>
+                  <label>Enter Epochs and Batch Size</label>
+                  <div>
+                    <input type="text" name="Epochs" placeholder="Enter Epochs Number" required="required" />
+                    <input type="text" name="BatchSize" placeholder="Enter Batch Size" required="required" />
+                  </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block btn-large">Train Model</button>
+                </div>
+              </form>
+            </div>
+            <div id="plots">
+            <canvas id="myChart" style="width:100%;max-width:500px"></canvas>
+            </div>
+            <br>
+            <br>
+    </div>
+        <div>
+        <h1>Model Summary</h1>
+        <div id="summary"></div>
+        </div>
+    </div>
+
+    <div id="Regression" class="column">
+        <div class="Model">
+        <h4>Data Splitting into Test and Train Datasets</h4>
+            <div class="formContainer">
+              <form action={{ url_for('dataSplit')}} class="form-group" method = "post">
+                <div class="flex_center">
+                  <div>
+                  <label>Enter test Data Split Ratio</label>
+                  <div>
+                    <input type="text" name="SplitRatio" placeholder="Enter Split Ratio" required="required" />
+                  </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block btn-large">Split DataSet</button>
+                </div>
+              </form>
+            </div>
+
+        <h4>Addition Input Layer AND First Hidden Layer</h4>
+            <div class="formContainer">
+              <form action={{ url_for('addInputNFHNLayer')}} class="form-group" method = "post">
+                <div class="flex_center">
+                  <div>
+                  <label>Enter the following parameters</label>
+                  <div>
+                    <input type="text" name="neurons" placeholder="Enter neurons Number" required="required" />
+                    <select id="field" name="activation" data-name="Field" class="w-select"><option value="">Select Activation...</option><option value="relu">Relu</option>
+                    <option value="tanh">Tanh</option><option value="sigmoid">Sigmoid</option><option value="softmax">Softmax</option></select>
+                  </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block btn-large">Add Layer Input & 1st HL</button>
+                </div>
+              </form>
+            </div>
+
+        <h4>Addition of Dense Layer</h4>
+            <div class="formContainer">
+              <form action={{ url_for('addDenselayerANN')}} class="form-group" method = "post">
+                <div class="flex_center">
+                  <div>
+                  <label>Enter the following parameters</label>
+                  <div>
+                    <input type="text" name="neurons" placeholder="Enter neurons Number" required="required" />
+                    <select id="field" name="activation" data-name="Field" class="w-select"><option value="">Select Activation...</option><option value="relu">Relu</option>
+                    <option value="tanh">Tanh</option><option value="sigmoid">Sigmoid</option><option value="softmax">Softmax</option></select>
+                  </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block btn-large">Add Dense Layer</button>
+                </div>
+              </form>
+            </div>
+         <h4>Model Train</h4>
+            <div class="formContainer">
+              <form action={{ url_for('TrainModel_Reg')}} class="form-group" method = "post">
+                <div class="flex_center">
+                  <div>
+                  <label>Enter Epochs and Batch Size</label>
+                  <div>
+                    <input type="text" name="Epochs" placeholder="Enter Epochs Number" required="required" />
+                    <input type="text" name="BatchSize" placeholder="Enter Batch Size" required="required" />
+                  </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block btn-large">Train Model</button>
+                </div>
+              </form>
+            </div>
+        <div id="plots">
+            <canvas id="myChart2" style="width:100%;max-width:500px"></canvas>
+        </div>
+        <h4>Prediction</h4>
+            <div class="formContainer">
+              <form action={{ url_for('predictValue')}} class="form-group" method = "post">
+                <div class="flex_center">
+                  <div>
+                  <label>Enter the following parameters</label>
+                  <div>
+
+                    <select id="field" name="Geography" data-name="Field" class="w-select"><option value="">Select Geography...</option><option value="spain">Spain</option>
+                    <option value="germany">Germany</option><option value="france">France</option></select>
+                      <input type="text" name="CreditScore" placeholder="Credit Score" required="required" />
+                      <select id="field" name="Gender" data-name="Field" class="w-select"><option value="">Select Gender...</option><option value="1">Male</option>
+                    <option value="0">Female</option></select>
+                      <input type="text" name="age" placeholder="Enter Age" required="required" />
+                      <input type="text" name="tenure" placeholder="Enter Tenure" required="required" />
+                      <input type="text" name="balance" placeholder="Enter Balance" required="required" />
+                      <input type="text" name="NBproduct" placeholder="Enter Number of Products" required="required" />
+                      <select id="field" name="MemberShipInfo" data-name="Field" class="w-select"><option value="">Is this person active member...</option>
+                    <option value="1">YES</option><option value="0">No</option></select>
+                      <select id="field" name="CaditCardInfo" data-name="Field" class="w-select"><option value="">Does the person have Credit Card...</option>
+                    <option value="1">YES</option><option value="0">No</option></select>
+                      <input type="text" name="EsSalary" placeholder="Enter Estemated Salary" required="required" />
+
+                  </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+                </div>
+              </form>
+            </div>
+
+        </div>
+        <div>
+        <h1>Model Summary</h1>
+        <div id="summary2"></div>
+        </div>
+    </div>
+
+
+</div></div>
+
+
+<script>
+function plot()
+           {
+
+             var a={{TnACU|safe}}
+             let length = a.length;
+             var xValues= Array.from(Array(length).keys())
+             var c={{TsACU|safe}}
+             new Chart("myChart", {
+              type: "line",
+              title:{
+                text: "Test and Training Accuracy"
+                 },
+              data: {
+                labels: xValues,
+                datasets: [{
+                  data: a,
+                  borderColor: "red",
+                  label: 'Training Accuracy',
+
+                },{
+                  data: c,
+                  borderColor: "green",
+                  label: 'Test Accuracy',
+                }]
+              }
+            });
+            new Chart("myChart2", {
+              type: "line",
+              title:{
+                text: "Test and Training Accuracy"
+                 },
+              data: {
+                labels: xValues,
+                datasets: [{
+                  data: a,
+                  borderColor: "red",
+                  label: 'Training Accuracy',
+
+                },{
+                  data: c,
+                  borderColor: "green",
+                  label: 'Test Accuracy',
+                }]
+              }
+            });
+            }
+
+
+   plot()
+   myFunction()
+   myFunction2()
+   myFunction3()
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
