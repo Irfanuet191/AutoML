@@ -1,7 +1,7 @@
 # AutoML
 Here google colab file is working as server which is controlling the GUI page. The Integration of front end and backend is done via flask.
-Api have been constructed to integrate the Gui and colab file.
-Results
+Api have been developed to integrate the Gui and colab file.
+# Results
   The accuracy of both model are comparatively same but 
 autokeras model training time and epochs number are quit high to 
 get this accuracy. Secondly the keras auto ml model doesn’t 
